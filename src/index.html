@@ -1,14 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>StockMarketApp2</title>
-  <base href="/">
+<!DOCTYPE html>
+<html>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+    <head>
+        <title>Stock Market Chart App</title>
+        <base href="/">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- boostrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+        <script src="socket.io/socket.io.js"></script>
+        <script> var socket = io()</script>
+        <script>
+            System.import('main.js').catch(function(err){ console.error(err); });
+        </script>
+    </head>
+    <base href="/">
+
+    <body class="container">
+        <my-app>
+                <div id="loading">
+                    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+                    <p>Loading AppComponent content here ...</p>
+                </div>
+        </my-app>
+    </body>
 </html>

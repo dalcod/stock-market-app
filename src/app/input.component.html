@@ -1,0 +1,8 @@
+<section id="input-cont">
+    <form class="" [formGroup]="inGroup" (ngSubmit)="onSubmit(inGroup.value)">
+        <input class="form-control" formControlName="name">
+        <button class="btn btn-success">Add</button>
+    </form>
+    <p class="error" *ngIf="formErrors.name">{{formErrors.name}}</p>
+    <p class="error" *ngIf="errMsg">{{errMsg}}</p>
+</section>
