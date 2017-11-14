@@ -7,12 +7,13 @@ import { StockService } from './stock.service';
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.css']
 })
+
 export class InputComponent {
     constructor(private sS: StockService, private fb: FormBuilder) {
         this.createForm().valueChanges
-        .subscribe(data => this.onValueChanges(data));
+            .subscribe(data => this.onValueChanges(data));
     }
-    
+
     public errMsg: string;
     public inGroup: FormGroup;
     public formErrors = {
@@ -24,7 +25,7 @@ export class InputComponent {
             'exist': 'This stock already exists',
             'notExist': 'Please enter a valid stock name'
         }
-    }
+    };
 
     @Output() onClick = new EventEmitter<string>();
 
@@ -33,17 +34,17 @@ export class InputComponent {
             name: ['', Validators.compose([Validators.pattern(/^[a-zA-Z]+$/)])]
         });
     }
-    
+
     public onValueChanges(data: any) {
         if (!this.inGroup) { return; }
         const form = this.inGroup;
-        for (const field in this.formErrors) {
+        for (let field in this.formErrors) {
             this.formErrors[field] = '';
             const control = form.get(field);
             if (control && control.dirty && !control.valid) {
                 this.errMsg = '';
                 const messages = this.validationMessages[field];
-                for (const key in control.errors) {
+                for (let key in control.errors) {
                     this.formErrors[field] += messages[key] + ' ';
                 }
             }
@@ -54,7 +55,7 @@ export class InputComponent {
         const stockName = stockObj.name.toUpperCase();
         // resetta il campo input.
         this.inGroup.reset();
-        if(this.sS.checkIfPresent(stockName)){
+        if (this.sS.checkIfPresent(stockName)) {
             this.errMsg = this.validationMessages.name.exist;
             return;
         }
@@ -65,6 +66,6 @@ export class InputComponent {
             // inviamo al componente 'padre' "AppComponent" il valore appena sottomesso nel campo input.
             this.onClick.emit(stockName);
         },
-                 err => this.errMsg = this.validationMessages.name.notExist);
+                  err => this.errMsg = this.validationMessages.name.notExist);
     }
 }

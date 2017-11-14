@@ -118,6 +118,9 @@ export class StockService {
             this.getStocks().then(names => {
                 this.names = names;
                 const self = this;
+                if (!this.names[0]) {
+                    resolve(false);
+                }
                 this.names.forEach((obj: any, i: number) => {
                     (function(){
                         setTimeout(function(){ self.makeRequest(obj.name, resolve, reject, true);}, 300 * i);

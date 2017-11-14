@@ -20,7 +20,10 @@ io.on('connection', function (socket) {
     });
 });
 
+// connettiti al database se si è in "localhost".
 var mongoUrl = "mongodb://sulphurv:3MorsKomWin@ds159670.mlab.com:59670/thearchive";
+// connettiti al database se si è lanciato l'app su heroku.
+// var mongoUrl = process.env.MONGODB_URI;
 mongoose.connect(mongoUrl);
 mongoose.connection.on("error", console.error.bind(console, "Unable to connect to MongoDB."));
 
@@ -30,6 +33,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(routes);
 
-server.listen(3000, function(){
+server.listen(process.env.PORT || 3000, function(){
     console.log("Successfully connected on port: 3000");
 });

@@ -20,18 +20,18 @@ export class AppComponent implements OnInit, OnDestroy {
     public names: any[] = [];
     @Input() options: Object;
     public connection: any;
-    loading: boolean = true;
+    loading: boolean;
 
     public ngOnInit() {
         this.options = this.sS.setChartOptions();
         this.httpErr = '';
         this.connection = this.sS.watchForData()
             .subscribe(obj => {
-            if(obj.type === 'post') {
+            if (obj.type === 'post') {
                 // aggiorna array "names".
                 this.sS.names.push({name: obj.json.name});
                 // nel caso in cui non sia stata l'applicazione attuale ad effettuare la richiesta al server per una nuova azione allora sarà necessario aggiornare l'array "seriesOptions" con i nuovi valori ottenuti dato che essi vengono inseriti nell'array al momento della richiesta, per chi effettua l'operazione, ma non per tutti gli altri utenti connessi, in quanto questo andrebbe a sovraccaricaricare di richieste i server dell'API nel caso vi siamo molti utenti, rischiando di causare errori. Perciò come faremo a distiguere l'array degli utenti che non hanno effettuato la richiesta da quella che l'ha effettuata? Semplicemente controllando che la lunghezza dell'array "seriesOptions" combaci con quella dell'array "names", se così non fosse allora sarà necessario inserie i nuovi dati.
-                if (this.sS.seriesOptions.length - 1 !== this.sS.names.length){
+                if (this.sS.seriesOptions.length - 1 !== this.sS.names.length) {
                     this.sS.seriesOptions.push(obj.json.options);
                 }
             }
@@ -41,12 +41,11 @@ export class AppComponent implements OnInit, OnDestroy {
             this.names = this.sS.augmentNames();
             this.refreshChart();
         });
-
-        this.sS.fetchData().then(() => {
+        this.loading = true;
+        this.sS.fetchData().then((res) => {
             this.loading = false;
             // la proprietà "this.names" verrà utilizzata dal "template" per costruire gli elementi che andranno ad indicare le varie azioni inserite.
             this.names = this.sS.augmentNames();
-            // console.log(this.names)
             this.refreshChart();
         },
                                  err => this.httpErr = err);
@@ -71,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .then(() => {
             this.sS.deleteFromView(stock);
             this.names = this.sS.augmentNames();
-            this.refreshChart()
+            this.refreshChart();
         },
                   err => this.httpErr = err);
     }
